@@ -2,10 +2,12 @@ module Components.Home (component) where
 
 import Prelude
 
+import Components.GameBoard as Board
+import Data.Maybe (Maybe(..))
+import Data.Symbol (SProxy(..))
 import Effect.Class (class MonadEffect)
 import Halogen (ClassName(..))
 import Halogen as H
-import Halogen.HTML (HTML)
 import Halogen.HTML as HH
 import Halogen.HTML.Properties as HP
 
@@ -15,9 +17,13 @@ type State =
 data Action
   = NoOp
 
-type ChildSlots = ()
+type ChildSlots = 
+  ( boardSlot :: Board.Slot Unit )
 
-component :: forall q o m. MonadEffect m => H.Component HH.HTML q {} o m
+_boardSlot :: SProxy "boardSlot"
+_boardSlot = SProxy
+
+component :: forall q o m. MonadEffect m => H.Component HH.HTML q { } o m
 component =
   H.mkComponent
     { initialState: const initialState
@@ -38,7 +44,7 @@ component =
     NoOp ->
       pure unit
 
-renderLayout :: forall w . HTML w Action
+renderLayout :: forall m.  MonadEffect m => H.ComponentHTML Action ChildSlots m
 renderLayout =
   HH.section
     [ HP.class_ (ClassName "hero is-fullheight") ]
@@ -49,7 +55,7 @@ renderLayout =
       [ HP.class_ (ClassName "hero-body") ]
       [ HH.div
         [ HP.class_ (ClassName "container has-text-centered") ]
-        [ HH.h1 [ HP.class_ (ClassName "title") ] [ HH.text "Hello Halogen" ]
+        [ HH.slot _boardSlot unit Board.component unit (\_ -> Nothing)
         ]
       ]
     , HH.div
