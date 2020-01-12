@@ -2,17 +2,11 @@ module Components.Home (component) where
 
 import Prelude
 
-import Data.Foldable (null)
-import Data.Maybe (Maybe(..))
-import Data.Route (navigate)
-import Data.Route as R
-import Data.Tuple (Tuple(..))
 import Effect.Class (class MonadEffect)
 import Halogen (ClassName(..))
 import Halogen as H
 import Halogen.HTML (HTML)
 import Halogen.HTML as HH
-import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
 
 type State =
@@ -37,16 +31,28 @@ component =
     { }
 
   render :: State -> H.ComponentHTML Action ChildSlots m
-  render state = showHome
+  render state = renderLayout
 
   handleAction :: Action -> H.HalogenM State Action ChildSlots o m Unit
   handleAction = case _ of
     NoOp ->
       pure unit
 
-showHome :: forall w . HTML w Action
-showHome =
-  HH.div
-    [ HP.class_ (ClassName "box") ] 
-    [ HH.h1 [ HP.class_ (ClassName "subtitle") ] [ HH.text "Hello Halogen" ]
+renderLayout :: forall w . HTML w Action
+renderLayout =
+  HH.section
+    [ HP.class_ (ClassName "hero is-fullheight") ]
+    [ HH.div
+      [ HP.class_ (ClassName "hero-head") ]
+      []
+    , HH.div
+      [ HP.class_ (ClassName "hero-body") ]
+      [ HH.div
+        [ HP.class_ (ClassName "container has-text-centered") ]
+        [ HH.h1 [ HP.class_ (ClassName "title") ] [ HH.text "Hello Halogen" ]
+        ]
+      ]
+    , HH.div
+      [ HP.class_ (ClassName "hero-foot") ]
+      []
     ]
