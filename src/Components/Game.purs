@@ -4,11 +4,13 @@ import Prelude
 
 import Components.Board as Board
 import Data.Const (Const)
+import Data.Maybe (Maybe(..))
 import Data.Symbol (SProxy(..))
 import Data.Tuple.Nested ((/\))
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (class MonadEffect)
 import GameState (GameState)
+import GameState as G
 import Halogen (ClassName(..), Component, Slot)
 import Halogen.HTML (HTML)
 import Halogen.HTML as HH
@@ -42,5 +44,10 @@ game = Hooks.component createComponent
     view gameState gameStateId =
         HH.div
             [ HP.class_ (ClassName "Game") ]
-            [ HH.slot _board unit Board.board gameState absurd
+            [ HH.slot _board unit Board.board gameState handleBoardOutput
             ]
+        where
+        handleBoardOutput (Board.SetValue coord (Just value)) =
+            Just $ Hooks.modify_ gameStateId (G.setValue coord value)
+        handleBoardOutput (Board.SetValue coord Nothing) =
+            Just $ Hooks.modify_ gameStateId (G.removeValue coord)

@@ -5,6 +5,8 @@ module GameState
     , Cell
     , initialize
     , fields
+    , setValue
+    , removeValue
     ) where
 
 import Prelude
@@ -50,7 +52,7 @@ initialize =
     GameState <<< Map.fromFoldable <<< zip coords <<< map toField
     where
     toField Nothing = Empty
-    toField (Just n) = Value n
+    toField (Just n) = Fixed n
     coords = do
         row <- 1..9
         col <- 1..9
@@ -64,3 +66,13 @@ fields (GameState m) =
         , col: coord.col
         , value: field
         }) <$> Map.toUnfoldable m
+
+
+setValue :: forall a. Coord -> a -> GameState a -> GameState a
+setValue coord value (GameState m) = GameState $
+    Map.insert coord (Value value) m
+
+
+removeValue :: forall a. Coord -> GameState a -> GameState a
+removeValue coord (GameState m) = GameState $
+    Map.insert coord Empty m
