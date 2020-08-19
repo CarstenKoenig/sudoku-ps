@@ -1,0 +1,26 @@
+{
+  "name": "sudoku-ps",
+  "version": "1.0.0",
+  "description": "Sudoku in Purescript/Halogen",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "spago build && parcel html/index.html"
+  },
+  "keywords": [
+    "purescript",
+    "halogen",
+    "sudoku",
+    "game"
+  ],
+  "author": "Carsten Koenig",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "purescript": "^0.13.8",
+    "sass": "^1.26.10",
+    "spago": "^0.16.0"
+  }
+}

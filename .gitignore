@@ -1,0 +1,9 @@
+/.cache/
+/dist/
+/node_modules/
+/output/
+/.psc*
+/.purs*
+/.psa*
+/.spago
+.psc-ide-port
