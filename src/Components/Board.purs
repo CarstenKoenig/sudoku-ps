@@ -44,6 +44,8 @@ board = Hooks.component createComponent
                 , HP.attr 
                     (AttrName "style")
                     ("grid-row: " <> showRow item <> "; grid-column: " <> showColumn item <> ";")
+                , HP.attr (AttrName "data-row") (show item.row)
+                , HP.attr (AttrName "data-col") (show item.column)
                 ]
                 [ HH.text item.value ]
         showRow item =

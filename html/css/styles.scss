@@ -26,12 +26,28 @@ body {
     height: min(80vw, 80vh);
 
     .item {
-        background-color: whitesmoke;
-        margin: 1;
+        justify-self: stretch;
+        align-self: stretch;
         display: flex;
         justify-content: center;
         align-items: center;
-        justify-self: stretch;
-        align-self: stretch;
+        background-color: whitesmoke;
+        border-right: 1px solid black;
+        border-bottom: 1px solid black;
+    }
+    
+    .item:nth-child(9n+0) {
+        border-right: none;
+    }
+
+    .item:nth-last-child(-n + 9) {
+        border-bottom: none;
+    }
+
+    .item[data-col="3"], .item[data-col="6"] {
+        border-right-width: 3px;
+    }
+    .item[data-row="3"], .item[data-row="6"] {
+        border-bottom-width: 3px;
     }
 }
