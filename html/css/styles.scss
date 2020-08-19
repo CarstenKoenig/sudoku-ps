@@ -9,3 +9,29 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.Game {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 95vw;
+    height: 95vh;
+}
+
+.Board {
+    display: grid;
+    grid-template-rows: repeat(9, fr);
+    grid-template-columns: repeat(9, fr);
+    width: min(80vw, 80vh);
+    height: min(80vw, 80vh);
+
+    .item {
+        background-color: whitesmoke;
+        margin: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        justify-self: stretch;
+        align-self: stretch;
+    }
+}
