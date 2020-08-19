@@ -2,11 +2,11 @@ module Components.Board where
   
 import Prelude
 
-import Data.Array ((..))
 import Data.Const (Const)
-import Data.Tuple.Nested ((/\))
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (class MonadEffect)
+import GameState (Field(..), GameState)
+import GameState as GS
 import Halogen (AttrName(..), ClassName(..), Component)
 import Halogen.HTML (HTML)
 import Halogen.HTML as HH
@@ -14,24 +14,18 @@ import Halogen.HTML.Properties as HP
 import Halogen.Hooks as Hooks
 
 type Query = Const Void
-type Input = Board
+type Input = GameState Int
 type Output = Void
-
-type Board = Unit
 
 -- the game component
 board :: forall m. MonadAff m => MonadEffect m => Component HTML Query Input Output m
 board = Hooks.component createComponent
   where
-  createComponent { } initialBoard = Hooks.do
-    -- setup hooks
-    -- this component uses State of type Models.Game
-    boardState /\ boardStateId <- Hooks.useState initialBoard
-
+  createComponent { } currentState = Hooks.do
     -- render component
-    Hooks.pure $ view boardState boardStateId
+    Hooks.pure view
     where
-    view boardState boardStateId =
+    view =
         HH.div
             [ HP.class_ (ClassName "Board") ]
             viewItems
@@ -45,18 +39,14 @@ board = Hooks.component createComponent
                     (AttrName "style")
                     ("grid-row: " <> showRow item <> "; grid-column: " <> showColumn item <> ";")
                 , HP.attr (AttrName "data-row") (show item.row)
-                , HP.attr (AttrName "data-col") (show item.column)
+                , HP.attr (AttrName "data-col") (show item.col)
                 ]
-                [ HH.text item.value ]
+                ( showValue item.value )
         showRow item =
             show item.row
         showColumn item =
-            show item.column
-        items =
-            (\row col ->
-                { row
-                , column: col
-                , value: show row <> "/" <> show col
-                }
-            )
-            <$> (1..9) <*> (1..9)
+            show item.col
+        showValue Empty = []
+        showValue (Fixed n) = [ HH.strong_ [ HH.text (show n)] ]
+        showValue (Value n) = [ HH.text (show n) ]
+        items = GS.fields currentState

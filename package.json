@@ -22,5 +22,8 @@
     "purescript": "^0.13.8",
     "sass": "^1.26.10",
     "spago": "^0.16.0"
+  },
+  "dependencies": {
+    "sudoku": "0.0.3"
   }
 }

@@ -36,11 +36,11 @@ body {
         border-bottom: 1px solid black;
     }
     
-    .item:nth-child(9n+0) {
+    .item[data-col="9"] {
         border-right: none;
     }
 
-    .item:nth-last-child(-n + 9) {
+    .item[data-row="9"] {
         border-bottom: none;
     }
 

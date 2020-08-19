@@ -8,6 +8,7 @@ import Data.Symbol (SProxy(..))
 import Data.Tuple.Nested ((/\))
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (class MonadEffect)
+import GameState (GameState)
 import Halogen (ClassName(..), Component, Slot)
 import Halogen.HTML (HTML)
 import Halogen.HTML as HH
@@ -15,10 +16,8 @@ import Halogen.HTML.Properties as HP
 import Halogen.Hooks as Hooks
 
 type Query = Const Void
-type Input = Game
+type Input = GameState Int
 type Output = Void
-
-type Game = Unit
 
 -- Slots for Child-Components
 type Slots = 
