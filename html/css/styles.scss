@@ -69,4 +69,8 @@ body {
         font-size: min(4vw, 4vh);
     }
 
+    .item.conflict * {
+        color: red;
+    }
+
 }

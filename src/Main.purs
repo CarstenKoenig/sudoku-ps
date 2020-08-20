@@ -5,7 +5,7 @@ import Prelude
 import Algorithm.Generate as G
 import Components.Game (game)
 import Effect (Effect)
-import GameState as GS
+import Sudoku.GameState as GS
 import Halogen.Aff (awaitBody, runHalogenAff)
 import Halogen.VDom.Driver (runUI)
 

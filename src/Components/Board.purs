@@ -2,14 +2,13 @@ module Components.Board where
   
 import Prelude
 
+import Data.Array (catMaybes)
 import Data.Const (Const)
 import Data.Int (round)
 import Data.Maybe (Maybe(..), maybe)
 import Data.Tuple.Nested ((/\))
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (class MonadEffect, liftEffect)
-import GameState (Field(..), GameState, Coord)
-import GameState as GS
 import Halogen (AttrName(..), ClassName(..), Component)
 import Halogen.HTML (HTML)
 import Halogen.HTML as HH
@@ -17,6 +16,8 @@ import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties (InputType(..))
 import Halogen.HTML.Properties as HP
 import Halogen.Hooks as Hooks
+import Sudoku.GameState (Coord, Field(..), GameState)
+import Sudoku.GameState as GS
 import Web.Event.Event (target)
 import Web.HTML.HTMLInputElement as Inp
 
@@ -43,7 +44,12 @@ board = Hooks.component createComponent
             map viewItem items
         viewItem item =
             HH.div
-                [ HP.class_ (ClassName "item") 
+                [ HP.classes
+                    (catMaybes
+                        [ Just (ClassName "item")
+                        , if hasConflict then Just (ClassName "conflict") else Nothing
+                        ]
+                    )
                 , HP.attr 
                     (AttrName "style")
                     ("grid-row: " <> showRow item <> "; grid-column: " <> showColumn item <> ";")
@@ -51,6 +57,8 @@ board = Hooks.component createComponent
                 , HP.attr (AttrName "data-col") (show item.col)
                 ]
                 ( showValue item )
+            where
+            hasConflict = GS.hasConflictAt { row: item.row, col: item.col } currentState
         showRow item =
             show item.row
         showColumn item =

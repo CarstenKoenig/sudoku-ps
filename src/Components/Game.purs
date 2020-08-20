@@ -9,8 +9,8 @@ import Data.Symbol (SProxy(..))
 import Data.Tuple.Nested ((/\))
 import Effect.Aff.Class (class MonadAff)
 import Effect.Class (class MonadEffect)
-import GameState (GameState)
-import GameState as G
+import Sudoku.GameState (GameState)
+import Sudoku.GameState as G
 import Halogen (ClassName(..), Component, Slot)
 import Halogen.HTML (HTML)
 import Halogen.HTML as HH
